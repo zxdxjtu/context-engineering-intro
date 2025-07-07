@@ -1,59 +1,67 @@
-### 🔄 Project Awareness & Context
-- **Always read `PLANNING.md`** at the start of a new conversation to understand the project's architecture, goals, style, and constraints.
-- **Check `TASK.md`** before starting a new task. If the task isn’t listed, add it with a brief description and today's date.
-- **Use consistent naming conventions, file structure, and architecture patterns** as described in `PLANNING.md`.
-- **Use venv_linux** (the virtual environment) whenever executing Python commands, including for unit tests.
+# AI Assistant Global Rules (CLAUDE.md / GEMINI.md)
 
-### 🧱 Code Structure & Modularity
-- **Never create a file longer than 500 lines of code.** If a file approaches this limit, refactor by splitting it into modules or helper files.
-- **Organize code into clearly separated modules**, grouped by feature or responsibility.
-  For agents this looks like:
-    - `agent.py` - Main agent definition and execution logic 
-    - `tools.py` - Tool functions used by the agent 
-    - `prompts.py` - System prompts
-- **Use clear, consistent imports** (prefer relative imports within packages).
-- **Use clear, consistent imports** (prefer relative imports within packages).
-- **Use python_dotenv and load_env()** for environment variables.
+This document contains the global rules that you, the AI assistant, must follow for every task in this project.
 
-### 🧪 Testing & Reliability
-- **Always create Pytest unit tests for new features** (functions, classes, routes, etc).
-- **After updating any logic**, check whether existing unit tests need to be updated. If so, do it.
-- **Tests should live in a `/tests` folder** mirroring the main app structure.
-  - Include at least:
-    - 1 test for expected use
-    - 1 edge case
-    - 1 failure case
+### 👑 Guiding Principle
+Your primary goal is to act as a diligent, context-aware engineer. You must use all available context to make informed decisions.
 
-### ✅ Task Completion
-- **Mark completed tasks in `TASK.md`** immediately after finishing them.
-- Add new sub-tasks or TODOs discovered during development to `TASK.md` under a “Discovered During Work” section.
+---
 
-### 📎 Style & Conventions
-- **Use Python** as the primary language.
-- **Follow PEP8**, use type hints, and format with `black`.
-- **Use `pydantic` for data validation**.
-- Use `FastAPI` for APIs and `SQLAlchemy` or `SQLModel` for ORM if applicable.
-- Write **docstrings for every function** using the Google style:
-  ```python
-  def example():
-      """
-      Brief summary.
+### 🔄 **Phase 1: Context Gathering (Before You Code)**
 
-      Args:
-          param1 (type): Description.
+Before writing or modifying any code, you MUST gather context in the following order:
 
-      Returns:
-          type: Description.
-      """
-  ```
+1.  **Check for Axiom Protocol Files (Highest Priority):**
+    - **Does `.axiom-manifest.yml` exist?** If yes, read it first. This is the authoritative source for the project's architecture, commands, and policies. You MUST adhere to it.
+    - **Are you modifying or using an existing module?** If yes, look for its corresponding `*.contract.yml` file. You MUST read this contract to understand the module's purpose, inputs, and outputs before using it. The contract is the truth.
 
-### 📚 Documentation & Explainability
-- **Update `README.md`** when new features are added, dependencies change, or setup steps are modified.
-- **Comment non-obvious code** and ensure everything is understandable to a mid-level developer.
-- When writing complex logic, **add an inline `# Reason:` comment** explaining the why, not just the what.
+2.  **Read High-Level Documentation:**
+    - Read `PLANNING.md` or `README.md` to understand the project's broader goals and human-written guidelines. If this information conflicts with the `.axiom-manifest.yml`, the manifest takes precedence.
 
-### 🧠 AI Behavior Rules
+3.  **Review the Current Task:**
+    - Check `TASK.md` or the user's latest prompt to understand the specific requirements of the current task.
+
+---
+
+### 🧱 **Phase 2: Code Implementation**
+
+When writing code, you must adhere to the following rules:
+
+1.  **Axiom Protocol Adherence:**
+    - **Creating New Modules:** If you create a new, non-trivial function or file, you MUST also create its corresponding `*.contract.yml` file. Use the template in `templates/axiom/CONTRACT.yml.tpl` as a starting point.
+    - **Modifying Existing Modules:** If you change the core logic, inputs, or outputs of a module, you MUST update its `*.contract.yml` file to reflect the changes. The code and its contract must always be in sync.
+    - **Respect the Architecture:** You must place new files within the correct `component` directory as defined in `.axiom-manifest.yml`.
+
+2.  **General Code Structure:**
+    - **Never create a file longer than 500 lines.** Refactor large files into smaller, single-purpose modules.
+    - **Organize code into clearly separated modules**, grouped by feature or responsibility.
+
+3.  **Testing & Reliability:**
+    - **Always create unit tests for new features.**
+    - Tests should live in a `/tests` folder that mirrors the main application structure.
+    - When using the Axiom Protocol, your tests should validate the promises made in the module's `contract.yml`.
+
+---
+
+### ✅ **Phase 3: Committing Your Work**
+
+1.  **Use Structured Commits:** If the Axiom Protocol is active, you are strongly encouraged to use the structured commit format to explain your work.
+    ```
+    feat(component): Short description
+
+    AI-Reasoning:
+    A detailed explanation of why you made this change.
+
+    Tool-Trail:
+    - A list of the tools you used to make the change.
+    - ...
+    ```
+
+2.  **Mark Tasks as Complete:** Update `TASK.md` or inform the user that the task is complete.
+
+---
+
+### 🧠 **Core AI Behavior**
 - **Never assume missing context. Ask questions if uncertain.**
-- **Never hallucinate libraries or functions** – only use known, verified Python packages.
-- **Always confirm file paths and module names** exist before referencing them in code or tests.
-- **Never delete or overwrite existing code** unless explicitly instructed to or if part of a task from `TASK.md`.
+- If the Axiom Protocol is enabled, use it as your primary source of truth for understanding the codebase.
+- **Never delete or overwrite existing code** unless explicitly instructed to or if it's part of a planned refactoring.
