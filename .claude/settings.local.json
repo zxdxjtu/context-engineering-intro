@@ -16,7 +16,13 @@
       "Bash(python:*)",
       "Bash(python -m pytest:*)",
       "Bash(python3 -m pytest:*)",
-      "WebFetch(domain:docs.anthropic.com)"
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(../init-axiom.sh)",
+      "Bash(rm:*)",
+      "Bash(chmod:*)",
+      "Bash(axiom-init:*)",
+      "Bash(../../init-axiom.sh:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
